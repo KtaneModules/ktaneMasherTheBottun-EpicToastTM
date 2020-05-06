@@ -97,7 +97,7 @@ public class masherTheBottunScript : MonoBehaviour {
         {
             if ((int)Info.GetTime() % 10 != target)
             {
-                Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, target);
+                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, target);
                 Module.HandleStrike();
                 lastStageWasWrong = true;
             }
@@ -178,7 +178,7 @@ public class masherTheBottunScript : MonoBehaviour {
         {
             if ((int)Info.GetTime() % 10 != bitch)
             {
-                Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, bitch);
+                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, bitch);
                 Module.HandleStrike();
                 lastStageWasWrong = true;
             }
@@ -189,7 +189,7 @@ public class masherTheBottunScript : MonoBehaviour {
             doingTheMorseThing = false;
             if ((int)Info.GetTime() % 10 != target)
             {
-                Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, bitch);
+                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, bitch);
                 Module.HandleStrike();
                 lastStageWasWrong = true;
             }
@@ -200,7 +200,7 @@ public class masherTheBottunScript : MonoBehaviour {
             doingTheCycleThing = false;
             if ((int)Info.GetTime() % 10 != target)
             {
-                Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, bitch);
+                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, bitch);
                 Module.HandleStrike();
                 lastStageWasWrong = true;
             }
@@ -212,7 +212,7 @@ public class masherTheBottunScript : MonoBehaviour {
             StartCoroutine(SlowSpin(clockwise));
             if ((int)Info.GetTime() % 10 != target)
             {
-                Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, bitch);
+                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, bitch);
                 Module.HandleStrike();
                 lastStageWasWrong = true;
             }
@@ -230,7 +230,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     if (spinDirections[i] == 0)
                         if (!primeNumbers.Contains((int)Info.GetTime() % 10))
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was prime.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was prime.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                             break;
@@ -238,7 +238,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     else if (spinDirections[i] == 1)
                         if ((int)Info.GetTime() % 10 >= 5)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was less than 5.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was less than 5.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                                 break;
@@ -246,7 +246,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     else if (spinDirections[i] == 2)
                         if (fourLetters.Contains((int)Info.GetTime() % 10))
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was not four letters in word form.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was not four letters in word form.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                                     break;
@@ -254,7 +254,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     else if (spinDirections[i] == 3)
                         if ((int)Info.GetTime() % 10 <= 4)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was greater than 4.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was greater than 4.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                                         break;
@@ -262,7 +262,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     else if (spinDirections[i] == 4)
                         if (!fourLetters.Contains((int)Info.GetTime() % 10))
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was four letters in word form.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was four letters in word form.", _moduleId);
                             Module.HandleStrike();
                                             lastStageWasWrong = true;
                                             break;
@@ -270,7 +270,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     else
                         if (primeNumbers.Contains((int)Info.GetTime() % 10))
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was not prime.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was not prime.", _moduleId);
                             Module.HandleStrike();
                                             lastStageWasWrong = true;
                                             break;
@@ -282,7 +282,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     {
                         if ((int)Info.GetTime() % 2 == 1)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was even.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was even.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                             break;
@@ -292,7 +292,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     {
                         if ((int)Info.GetTime() % 10 % 3 == 0)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was not divisible by 3.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was not divisible by 3.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                             break;
@@ -303,7 +303,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     {
                         if ((int)Info.GetTime() % 10 < 3 || (int)Info.GetTime() % 10 > 7)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was between 3 and 7.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was between 3 and 7.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                             break;
@@ -314,7 +314,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     {
                         if ((int)Info.GetTime() % 10 % 3 != 0)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was divisible by 3.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was divisible by 3.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                             break;
@@ -325,7 +325,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     {
                         if ((int)Info.GetTime() % 10 > 3 && (int)Info.GetTime() % 10 < 7)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was less than 3 or greater than 7.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was less than 3 or greater than 7.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                             break;
@@ -336,7 +336,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     {
                         if ((int)Info.GetTime() % 2 == 0)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was odd.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was odd.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                             break;
@@ -350,7 +350,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     {
                         if ((int)(Info.GetTime() / 10) % 2 == 1)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits had a difference of 3 or 7.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits had a difference of 3 or 7.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                             break;
@@ -360,7 +360,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     {
                         if ((int)(Info.GetTime() / 10) % 2 == 0)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits had a difference of 4 or 8.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits had a difference of 4 or 8.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                             break;
@@ -371,7 +371,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     {
                         if ((int)(Info.GetTime() / 10) % 2 == 1)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits added to 7 or 10.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits added to 7 or 10.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                             break;
@@ -382,7 +382,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     {
                         if ((int)(Info.GetTime() / 10) % 2 == 0)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits had a difference of 4 or 8.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits had a difference of 4 or 8.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                             break;
@@ -393,7 +393,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     {
                         if ((int)(Info.GetTime() / 10) % 2 == 1)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits added to 8 or 11.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits added to 8 or 11.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                             break;
@@ -404,7 +404,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     {
                         if ((int)(Info.GetTime() / 10) % 2 == 0)
                         {
-                            Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits added to 9 or 12.", _moduleId);
+                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits added to 9 or 12.", _moduleId);
                             Module.HandleStrike();
                             lastStageWasWrong = true;
                             break;
@@ -420,7 +420,7 @@ public class masherTheBottunScript : MonoBehaviour {
             if ((int)Info.GetTime() % 10 != target)
             {
                 shutTheFuckUp = true;
-                Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, target);
+                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, target);
                 Module.HandleStrike();
                 lastStageWasWrong = true;
             }
@@ -431,7 +431,7 @@ public class masherTheBottunScript : MonoBehaviour {
             if ((int)Info.GetTime() % 10 != target)
             {
                 shutTheFuckUp = true;
-                Debug.LogFormat("[Masher the Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, target);
+                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was {1}.", _moduleId, target);
                 Module.HandleStrike();
                 lastStageWasWrong = true;
             }
@@ -790,11 +790,12 @@ public class masherTheBottunScript : MonoBehaviour {
                 int theOtherNumber = 0;
                 int[] table = { 4, 7, 2, 6, 0, 8, 3, 5, 1 };
                 if (numberDisplayed % 10 == 9)
-                    theOtherNumber = (sound + 4) % 9;
+                    theOtherNumber = Array.IndexOf(table, (sound + 4) % 9);
                 else
                     theOtherNumber = Array.IndexOf(table, numberDisplayed % 10);
 
                 Debug.LogFormat("[Masher The Bottun #{0}] The module played the '{1}' sound.", _moduleId, soundEffects[sound]);
+                Debug.LogFormat("[Masher The Bottun #{0}] The number is {1}.", _moduleId, theOtherNumber);
 
                 if (sound == theOtherNumber)
                 {
