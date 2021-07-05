@@ -148,7 +148,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1907881916036898
 GameObject:
   m_ObjectHideFlags: 1
@@ -722,7 +722,7 @@ MonoBehaviour:
   Children:
   - {fileID: 114967298333961760}
   IsPassThrough: 0
-  ChildRowLength: 0
+  ChildRowLength: 1
   Highlight: {fileID: 114544809500154310}
   SelectableColliders: []
   DefaultSelectableIndex: 0
@@ -868,7 +868,6 @@ MonoBehaviour:
     rgba: 4278255615
   - serializedVersion: 2
     rgba: 4278255360
-  btnLight: {fileID: 0}
 --- !u!114 &114967298333961760
 MonoBehaviour:
   m_ObjectHideFlags: 1
