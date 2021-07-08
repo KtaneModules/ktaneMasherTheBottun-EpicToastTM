@@ -3,6 +3,8 @@ using System;
 using UnityEngine;
 using KModkit;
 using System.Collections;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Random = UnityEngine.Random;
 
 public class masherTheBottunScript : MonoBehaviour {
@@ -15,7 +17,6 @@ public class masherTheBottunScript : MonoBehaviour {
     public TextMesh screenText, btnText;
     public MeshRenderer btnRenderer;
     public Color32[] numberColors, buttonBGColors;
-    public Light btnLight;
 
     private static int _moduleIdCounter = 1;
     private int _moduleId;
@@ -51,15 +52,15 @@ public class masherTheBottunScript : MonoBehaviour {
     private int[] previousSections = { 99, 99, 99, 99 };
     private int stageNo = 0;
 
+    private int[] bgColorTargets;
+    private int[] spinTargets;
+
     // Use this for initialization
     void Start () {
         _moduleId = _moduleIdCounter++;
         Module.OnActivate += Activate;
 
         Init();
-
-        float scalar = transform.lossyScale.x;
-        btnLight.range *= scalar;
 	}
 
     void Activate()
@@ -105,70 +106,9 @@ public class masherTheBottunScript : MonoBehaviour {
 
         if (lastStage == 1)
         {
-            bool[] visitedCells = { false, false, false, false, false, false, false };
-            bool[] statements = {
-                    Info.GetIndicators().Contains("BOB") || Info.GetIndicators().Contains("FRK"),
-                    Info.GetBatteryCount(Battery.D) > 1,
-                    Info.GetModuleNames().Count() <= 31,
-                    Info.GetPorts().Contains("RJ45"),
-                    Info.GetStrikes() > 0,
-                    todayDayOfWeek == DayOfWeek.Monday || todayDayOfWeek == DayOfWeek.Wednesday || todayDayOfWeek == DayOfWeek.Friday,
-                    Info.GetSolvedModuleNames().Count() <= Info.GetSolvedModuleNames().Count() / 2};
-            int[] locations = { 3,2, 2,0, 6,4, 5,1, 0,5, 1,6, 4,3 }; // first number in each pair = yes, second number = no
-
-            while (!visitedCells[currentCell])
+            if (!bgColorTargets.Contains((int)Info.GetTime() % 60))
             {
-                visitedCells[currentCell] = true;
-                if (statements[currentCell])
-                    currentCell = locations[currentCell * 2];
-                else
-                    currentCell = locations[currentCell * 2 + 1];
-            }
-
-            if (currentCell == 0 && (int)Info.GetTime() % 10 != 5)
-            {
-                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was 5.", _moduleId);
-                Module.HandleStrike();
-                lastStageWasWrong = true;
-            }
-
-            if (currentCell == 1 && (int)Info.GetTime() % 10 + (int)(Info.GetTime() / 10) % 6 != 10)
-            {
-                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the seconds digits added to 10.", _moduleId);
-                Module.HandleStrike();
-                lastStageWasWrong = true;
-            }
-
-            if (currentCell == 2 && (int)Info.GetTime() % 10 != 7)
-            {
-                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was 7.", _moduleId);
-                Module.HandleStrike();
-            }
-            
-            if (currentCell == 3 && (int)Info.GetTime() % 10 != 0)
-            {
-                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was 0.", _moduleId);
-                Module.HandleStrike();
-                lastStageWasWrong = true;
-            }
-
-            if (currentCell == 4 && (int)Info.GetTime() % 10 + (int)(Info.GetTime() / 10) % 6 != 7)
-            {
-                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the seconds digits added to 7.", _moduleId);
-                Module.HandleStrike();
-                lastStageWasWrong = true;
-            }
-
-            if (currentCell == 5 && (int)Info.GetTime() % 10 != (int)(Info.GetTime() / 10) % 6)
-            {
-                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the seconds digits were the same.", _moduleId);
-                Module.HandleStrike();
-                lastStageWasWrong = true;
-            }
-
-            if (currentCell == 6 && Math.Abs((int)Info.GetTime() % 10 - (int)(Info.GetTime() / 10) % 6) != 3)
-            {
-                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when there was a difference of 3 between the seconds digits.", _moduleId);
+                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at {1}! That was incorrect, strike!.", _moduleId, Info.GetFormattedTime());
                 Module.HandleStrike();
                 lastStageWasWrong = true;
             }
@@ -220,199 +160,13 @@ public class masherTheBottunScript : MonoBehaviour {
         
         if (lastStage == 6)
         {
-            int[] primeNumbers = { 0, 2, 3, 5, 7 };
-            int[] fourLetters = { 0, 4, 5, 9 };
             doingTheOtherSlightlyDifferentSpinThing = false;
-            for (int i = 0; i < 3; i++)
+            if (!spinTargets.Contains((int)Info.GetTime() % 60))
             {
-                if (i == 0)
-                {
-                    if (spinDirections[i] == 0)
-                        if (!primeNumbers.Contains((int)Info.GetTime() % 10))
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was prime.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                            break;
-                        }
-                    else if (spinDirections[i] == 1)
-                        if ((int)Info.GetTime() % 10 >= 5)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was less than 5.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                                break;
-                        }
-                    else if (spinDirections[i] == 2)
-                        if (fourLetters.Contains((int)Info.GetTime() % 10))
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was not four letters in word form.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                                    break;
-                        }
-                    else if (spinDirections[i] == 3)
-                        if ((int)Info.GetTime() % 10 <= 4)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was greater than 4.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                                        break;
-                        }
-                    else if (spinDirections[i] == 4)
-                        if (!fourLetters.Contains((int)Info.GetTime() % 10))
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was four letters in word form.", _moduleId);
-                            Module.HandleStrike();
-                                            lastStageWasWrong = true;
-                                            break;
-                        }
-                    else
-                        if (primeNumbers.Contains((int)Info.GetTime() % 10))
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was not prime.", _moduleId);
-                            Module.HandleStrike();
-                                            lastStageWasWrong = true;
-                                            break;
-                        }
-                }
-                else if (i == 1)
-                {
-                    if (spinDirections[i] == 0)
-                    {
-                        if ((int)Info.GetTime() % 2 == 1)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was even.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                            break;
-                        }
-                    }
-                    else if (spinDirections[i] == 1)
-                    {
-                        if ((int)Info.GetTime() % 10 % 3 == 0)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was not divisible by 3.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                            break;
-                        }
-                    }
-
-                    else if (spinDirections[i] == 2)
-                    {
-                        if ((int)Info.GetTime() % 10 < 3 || (int)Info.GetTime() % 10 > 7)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was between 3 and 7.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                            break;
-                        }
-                    }
-
-                    else if (spinDirections[i] == 3)
-                    {
-                        if ((int)Info.GetTime() % 10 % 3 != 0)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was divisible by 3.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                            break;
-                        }
-                    }
-
-                    else if (spinDirections[i] == 4)
-                    {
-                        if ((int)Info.GetTime() % 10 > 3 && (int)Info.GetTime() % 10 < 7)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was less than 3 or greater than 7.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                            break;
-                        }
-                    }
-
-                    else
-                    {
-                        if ((int)Info.GetTime() % 2 == 0)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the last digit of the timer was odd.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                            break;
-                        }
-                    }
-                }
-
-                else
-                {
-                    if (spinDirections[i] == 0)
-                    {
-                        if ((int)(Info.GetTime() / 10) % 2 == 1)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits had a difference of 3 or 7.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                            break;
-                        }
-                    }
-                    else if (spinDirections[i] == 1)
-                    {
-                        if ((int)(Info.GetTime() / 10) % 2 == 0)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits had a difference of 4 or 8.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                            break;
-                        }
-                    }
-
-                    else if (spinDirections[i] == 2)
-                    {
-                        if ((int)(Info.GetTime() / 10) % 2 == 1)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits added to 7 or 10.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                            break;
-                        }
-                    }
-
-                    else if (spinDirections[i] == 3)
-                    {
-                        if ((int)(Info.GetTime() / 10) % 2 == 0)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits had a difference of 4 or 8.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                            break;
-                        }
-                    }
-
-                    else if (spinDirections[i] == 4)
-                    {
-                        if ((int)(Info.GetTime() / 10) % 2 == 1)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits added to 8 or 11.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                            break;
-                        }
-                    }
-
-                    else
-                    {
-                        if ((int)(Info.GetTime() / 10) % 2 == 0)
-                        {
-                            Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at " + Info.GetFormattedTime() + "! You should've pressed when the two digits added to 9 or 12.", _moduleId);
-                            Module.HandleStrike();
-                            lastStageWasWrong = true;
-                            break;
-                        }
-                    }
-                }
+                Debug.LogFormat("[Masher The Bottun #{0}] You pressed the button at {1}! Strike!", _moduleId, Info.GetFormattedTime());
+                Module.HandleStrike();
+                lastStageWasWrong = true;
             }
-
         }
 
         if (lastStage == 7)
@@ -507,6 +261,37 @@ public class masherTheBottunScript : MonoBehaviour {
                 string[] colorNames = { "magenta", "cyan", "gray", "blue", "red", "yellow", "green" };
                 btnRenderer.material.color = buttonBGColors[color];
                 Debug.LogFormat("[Masher The Bottun #{0}] The button background is {1}.", _moduleId, colorNames[color]);
+
+                //This snippet of code was originally in the Press() method. Epic, why.
+                bool[] visitedCells = { false, false, false, false, false, false, false };
+                bool[] statements = {
+                    Info.GetIndicators().Contains("BOB") || Info.GetIndicators().Contains("FRK"),
+                    Info.GetBatteryCount(Battery.D) > 1,
+                    Info.GetModuleNames().Count() <= 31,
+                    Info.GetPorts().Contains("RJ45"),
+                    Info.GetStrikes() > 0,
+                    todayDayOfWeek == DayOfWeek.Monday || todayDayOfWeek == DayOfWeek.Wednesday || todayDayOfWeek == DayOfWeek.Friday,
+                    Info.GetSolvedModuleNames().Count() <= Info.GetSolvedModuleNames().Count() / 2}; 
+                int[] locations = { 3, 2, 2, 0, 6, 4, 5, 1, 0, 5, 1, 6, 4, 3 }; // first number in each pair = yes, second number = no
+
+                while (!visitedCells[currentCell])
+                {
+                    visitedCells[currentCell] = true;
+                    if (statements[currentCell])
+                        currentCell = locations[currentCell * 2];
+                    else
+                        currentCell = locations[currentCell * 2 + 1];
+                }
+                switch (currentCell)
+                {
+                    case 0: bgColorTargets = new int[] { 5, 15, 25, 35, 45, 55};  Debug.LogFormat("[Masher The Bottun #{0}] You should press the button when the last seconds digit is a 5.", _moduleId); break;
+                    case 1: bgColorTargets = new int[] { 19, 28, 37, 46, 55 };    Debug.LogFormat("[Masher The Bottun #{0}] You should press the button when the seconds digits add up to 10.", _moduleId); break;
+                    case 2: bgColorTargets = new int[] { 7, 17, 27, 37, 47, 57 }; Debug.LogFormat("[Masher The Bottun #{0}] You should press the button when the last seconds digit is a 7.", _moduleId); break;
+                    case 3: bgColorTargets = new int[] { 0, 10, 20, 30, 40, 50 }; Debug.LogFormat("[Masher The Bottun #{0}] You should press the button when the last seconds digit is a 0.", _moduleId); break;
+                    case 4: bgColorTargets = new int[] { 7, 16, 25, 34, 43, 52 }; Debug.LogFormat("[Masher The Bottun #{0}] You should press the button when the seconds digits add up to 7.", _moduleId); break;
+                    case 5: bgColorTargets = new int[] { 0, 11, 22, 33, 44, 55 }; Debug.LogFormat("[Masher The Bottun #{0}] You should press the button when the seconds digits are the same.", _moduleId); break;
+                    case 6: bgColorTargets = new int[] { 3, 14, 25, 36, 47, 58 }; Debug.LogFormat("[Masher The Bottun #{0}] You should press the buttonw hen the difference between the seconds digits is 3.", _moduleId); break;
+                }
             }
 
             if (sectionUsed == 2)
@@ -734,8 +519,18 @@ public class masherTheBottunScript : MonoBehaviour {
                     spinDirections[i] = Random.Range(0, 6);
                     Debug.LogFormat("[Masher The Bottun #{0}] Direction {1} is {2}.", _moduleId, i, directionNames[spinDirections[i]]);
                 }
-
-                StartCoroutine(ModuleSpin(spinDirections));
+                int[] primeNumbers = { 0, 2, 3, 5, 7 };
+                int[] fourLetters = { 0, 4, 5, 9 };
+                Predicate<int>[][] conditions = new Predicate<int>[][]
+                {
+                    new Predicate<int>[]{ x=> primeNumbers.Contains(x % 10), x=> x % 10 < 5, x=> x % 10 > 4, x=> fourLetters.Contains(x % 10), x=> !primeNumbers.Contains(x % 10) },
+                    new Predicate<int>[]{ x=> x % 2 == 0, x=> x % 10 % 3 != 0, x=> x % 10 >= 3 && x % 10 <= 7, x=> x % 10 % 3 == 0, x=> x % 10 < 3 || x % 10 > 7, x=> x % 2 == 1},
+                    new Predicate<int>[]{ x=> x / 10 % 2 == 0, x => x / 10 % 2 == 1, x=> x / 10 % 2 == 0, x => x / 10 % 2 == 1, x=> x / 10 % 2 == 0, x => x / 10 % 2 == 1, }
+                };
+                Predicate<int>[] chosen3 = Enumerable.Range(0, 3).Select(x => conditions[x][spinDirections[x]]).ToArray();
+                spinTargets = Enumerable.Range(0, 60).Where(num => chosen3.All(pred => pred(num))).ToArray();
+                Debug.LogFormat("[Masher The Bottun #{0}] Correct timer digits to submit are {1}.", _moduleId, spinTargets.Join(", "));
+                    StartCoroutine(ModuleSpin(spinDirections));
             }
 
             if (sectionUsed == 7)
@@ -1030,6 +825,86 @@ public class masherTheBottunScript : MonoBehaviour {
                 Module.HandleStrike();
                 Debug.LogFormat("[Masher The Bottun #{0}] You didn't press in time! Strike.", _moduleId);
             }
+        }
+    }
+
+#pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"Use <!{0} masher> to masher the btmuno until something happens. Use <!{0} masher at 5> to masher the bnutianot when the last digit of the bomb's timer is that number. Use two digits to specify the last 2 diigits.";
+#pragma warning restore 414
+
+    IEnumerator ProcessTwitchCommand(string command)
+    {
+        command = command.Trim().ToUpperInvariant();
+        if (command == "MASHER")
+        {
+            yield return null;
+            do
+            {
+                btnSelectable.OnInteract();
+                yield return new WaitForSeconds(0.1f);
+            } while (!positions.Contains(numberDisplayed));
+        }
+        else if (Regex.IsMatch(command, @"^MASHER\s+(AT\s+)?[0-9]$"))
+        {
+            yield return null;
+            int submit = command.Last() - '0';
+            while ((int)Info.GetTime() % 10 == submit)
+                yield return null;
+            while ((int)Info.GetTime() % 10 != submit)
+                yield return "trycancel you stopped the buoont pressing?!!?!? wtf how!?!!?!";
+            do
+            {
+                btnSelectable.OnInteract();
+                yield return new WaitForSeconds(0.1f);
+            } while (!positions.Contains(numberDisplayed));
+        }
+        else if (Regex.IsMatch(command, @"^MASHER\s+(AT\s+)?[0-5][0-9]$"))
+        {
+            int submit = 10 * (command[command.Length - 2] - '0') + (command.Last() - '0');
+            while ((int)Info.GetTime() % 60 == submit)
+                yield return null;
+            while ((int)Info.GetTime() % 60 != submit)
+                yield return "trycancel you stopped the b pressing?!!?!? wtf how!?!!?!";
+            do
+            {
+                btnSelectable.OnInteract();
+                yield return new WaitForSeconds(0.1f);
+            } while (!positions.Contains(numberDisplayed));
+        }            
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        while (!solved)
+        {
+            while (!positions.Contains(numberDisplayed))
+            {
+                btnSelectable.OnInteract();
+                yield return new WaitForSeconds(0.1f);
+                if (solved) //Needs to break here or else the module will autosolve and then just wait on 0 forever.
+                    yield break; 
+            }
+            switch (sectionUsed)
+            {
+                case 1:
+                    while (!bgColorTargets.Contains((int)Info.GetTime() % 60))
+                        yield return true;
+                    break;
+                case 6:
+                    while (!spinTargets.Contains((int)Info.GetTime() % 60))
+                        yield return true;
+                    break;
+                case 2:
+                    while ((int)Info.GetTime() % 10 != bitch)
+                        yield return true;
+                    break;
+                default:
+                    while ((int)Info.GetTime() % 10 != target)
+                        yield return true;
+                    break;
+            }
+            btnSelectable.OnInteract();
+            yield return new WaitForSeconds(0.1f);
         }
     }
 }

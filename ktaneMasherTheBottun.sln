@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ktaneMasherTheBottun", "ktaneMasherTheBottun.csproj", "{9E9690C7-FB6C-6E06-7655-B76778CC952D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ktaneMasherTheBottun.Editor", "ktaneMasherTheBottun.Editor.csproj", "{0BC96FC7-2596-974D-8884-C3B627F116CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E9690C7-FB6C-6E06-7655-B76778CC952D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E9690C7-FB6C-6E06-7655-B76778CC952D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E9690C7-FB6C-6E06-7655-B76778CC952D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E9690C7-FB6C-6E06-7655-B76778CC952D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BC96FC7-2596-974D-8884-C3B627F116CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BC96FC7-2596-974D-8884-C3B627F116CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BC96FC7-2596-974D-8884-C3B627F116CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BC96FC7-2596-974D-8884-C3B627F116CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
