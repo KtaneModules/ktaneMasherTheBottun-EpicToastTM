@@ -3,7 +3,6 @@ using System;
 using UnityEngine;
 using KModkit;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Random = UnityEngine.Random;
 
@@ -540,15 +539,15 @@ public class masherTheBottunScript : MonoBehaviour {
                     "you", "bought", "game",
                     "that", "is", "no", "work",
                     "just", "got", "autocorrect", "english", "enabled",
-                    "people", "call", "me", "troll", "it", "really", "dismotivates",
+                    "people", "call", "troll", "it", "really", "dismotivates",
                     "explain", "myself", "what",
-                    "why", "did", "nobody", "upload", "example", "modification", "before",
+                    "did", "nobody", "upload", "example", "modification", "before",
                     "add", "twitch", "play",
                     "theyre", "all", "challenges",
                     "make", "easy", "modules", "and", "then", "harder",
                     "objects", "made" };
-                int[] starts = { 0, 3, 7, 12, 19, 22, 29, 32, 35, 41 };
-                int[] lengths = { 3, 4, 5, 7, 3, 7, 3, 3, 6, 2 };
+                int[] starts = { 0, 3, 7, 12, 18, 21, 27, 30, 33, 39 };
+                int[] lengths = { 3, 4, 5, 6, 3, 6, 3, 3, 6, 2 };
 
                 int doubleUsed = Random.Range(0, 10);
                 int singleUsed = Random.Range(0, 10);
@@ -777,7 +776,7 @@ public class masherTheBottunScript : MonoBehaviour {
             {
                 if (!doingTheOtherSlightlyDifferentSpinThing)
                     break;
-                if (direction <= 3)
+                if (direction < 3)
                 {
                     for (int i = 0; i < (direction % 3 + 1) * 45; i++)
                     {
