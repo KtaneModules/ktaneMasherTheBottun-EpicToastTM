@@ -289,7 +289,7 @@ public class masherTheBottunScript : MonoBehaviour {
                     case 3: bgColorTargets = new int[] { 0, 10, 20, 30, 40, 50 }; Debug.LogFormat("[Masher The Bottun #{0}] You should press the button when the last seconds digit is a 0.", _moduleId); break;
                     case 4: bgColorTargets = new int[] { 7, 16, 25, 34, 43, 52 }; Debug.LogFormat("[Masher The Bottun #{0}] You should press the button when the seconds digits add up to 7.", _moduleId); break;
                     case 5: bgColorTargets = new int[] { 0, 11, 22, 33, 44, 55 }; Debug.LogFormat("[Masher The Bottun #{0}] You should press the button when the seconds digits are the same.", _moduleId); break;
-                    case 6: bgColorTargets = new int[] { 3, 14, 25, 36, 47, 58 }; Debug.LogFormat("[Masher The Bottun #{0}] You should press the buttonw hen the difference between the seconds digits is 3.", _moduleId); break;
+                    case 6: bgColorTargets = new int[] { 3, 14, 25, 36, 47, 58 }; Debug.LogFormat("[Masher The Bottun #{0}] You should press the button when the difference between the seconds digits is 3.", _moduleId); break;
                 }
             }
 
@@ -516,15 +516,15 @@ public class masherTheBottunScript : MonoBehaviour {
                 for (int i = 0; i < 3; i++)
                 {
                     spinDirections[i] = Random.Range(0, 6);
-                    Debug.LogFormat("[Masher The Bottun #{0}] Direction {1} is {2}.", _moduleId, i, directionNames[spinDirections[i]]);
+                    Debug.LogFormat("[Masher The Bottun #{0}] Direction {1} is {2}.", _moduleId, i + 1, directionNames[spinDirections[i]]);
                 }
                 int[] primeNumbers = { 0, 2, 3, 5, 7 };
                 int[] fourLetters = { 0, 4, 5, 9 };
                 Predicate<int>[][] conditions = new Predicate<int>[][]
                 {
-                    new Predicate<int>[]{ x=> primeNumbers.Contains(x % 10), x=> x % 10 < 5, x=> x % 10 > 4, x=> fourLetters.Contains(x % 10), x=> !primeNumbers.Contains(x % 10) },
+                    new Predicate<int>[]{ x=> primeNumbers.Contains(x % 10), x=> x % 10 < 5, x=> !fourLetters.Contains(x % 10), x=> x % 10 > 4, x=> fourLetters.Contains(x % 10), x=> !primeNumbers.Contains(x % 10) },
                     new Predicate<int>[]{ x=> x % 2 == 0, x=> x % 10 % 3 != 0, x=> x % 10 >= 3 && x % 10 <= 7, x=> x % 10 % 3 == 0, x=> x % 10 < 3 || x % 10 > 7, x=> x % 2 == 1},
-                    new Predicate<int>[]{ x=> x / 10 % 2 == 0, x => x / 10 % 2 == 1, x=> x / 10 % 2 == 0, x => x / 10 % 2 == 1, x=> x / 10 % 2 == 0, x => x / 10 % 2 == 1, }
+                    new Predicate<int>[]{ x=> x / 10 % 2 == 0, x => x / 10 % 2 == 1, x=> x / 10 % 2 == 0, x => x / 10 % 2 == 1, x=> x / 10 % 2 == 0, x => x / 10 % 2 == 1 }
                 };
                 Predicate<int>[] chosen3 = Enumerable.Range(0, 3).Select(x => conditions[x][spinDirections[x]]).ToArray();
                 spinTargets = Enumerable.Range(0, 60).Where(num => chosen3.All(pred => pred(num))).ToArray();
@@ -584,12 +584,12 @@ public class masherTheBottunScript : MonoBehaviour {
                 int theOtherNumber = 0;
                 int[] table = { 4, 7, 2, 6, 0, 8, 3, 5, 1 };
                 if (numberDisplayed % 10 == 9)
-                    theOtherNumber = Array.IndexOf(table, (sound + 4) % 9);
+                    theOtherNumber = Array.IndexOf(table, (table[sound] + 4) % 9);
                 else
                     theOtherNumber = Array.IndexOf(table, numberDisplayed % 10);
 
                 Debug.LogFormat("[Masher The Bottun #{0}] The module played the '{1}' sound.", _moduleId, soundEffects[sound]);
-                Debug.LogFormat("[Masher The Bottun #{0}] The number is {1}.", _moduleId, theOtherNumber);
+                Debug.LogFormat("[Masher The Bottun #{0}] The number is {1}.", _moduleId, table[theOtherNumber]);
 
                 if (sound == theOtherNumber)
                 {
