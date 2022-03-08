@@ -828,7 +828,7 @@ public class masherTheBottunScript : MonoBehaviour {
     }
 
 #pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"Use <!{0} masher> to masher the btmuno until something happens. Use <!{0} masher at 5> to masher the bnutianot when the last digit of the bomb's timer is that number. Use two digits to specify the last 2 diigits.";
+    private readonly string TwitchHelpMessage = @"Use <!{0} masher> to masher the btmuno until something happens. Use <!{0} masher at 5> to masher the bnutianot when the last digit of the bomb's timer is that number. Use two digits to specify the last 2 digits.";
 #pragma warning restore 414
 
     IEnumerator ProcessTwitchCommand(string command)
